@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+if [[ $1 != "" ]]; then
+	objdump -T $1 | grep GLIBC | sed 's/.*GLIBC_\([.0-9]*\).*/\1/g' | sort -Vu | tail -n 1
+else
+	echo Missing file parameter
+fi
+
