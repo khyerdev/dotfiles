@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+nvim $HOME/.config/hypr/hyprland.conf

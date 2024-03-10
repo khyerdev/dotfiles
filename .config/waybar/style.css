@@ -1,0 +1,137 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(21, 18, 27, 0);
+    color: #cdd6f4;
+}
+
+tooltip {
+    background: #1e1e2e;
+    border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #11111b;
+}
+
+#workspaces button {
+    padding: 2px;
+    color: #313244;
+    margin-right: 5px;
+}
+
+#workspaces button.active {
+    color: #a6adc8;
+}
+
+#workspaces button.focused {
+    color: #a6adc8;
+    background: #eba0ac;
+    border-radius: 5px;
+}
+
+#workspaces button.urgent {
+    color: #11111b;
+    background: #a6e3a1;
+    border-radius: 5px;
+}
+
+#workspaces button:hover {
+    background: #11111b;
+    color: #cdd6f4;
+    border-radius: 5px;
+}
+
+#custom-weather,
+#window,
+#clock,
+#pulseaudio,
+#network,
+#bluetooth,
+#temperature,
+#workspaces,
+#tray,
+#custom-archbtw,
+#cpu,
+#memory,
+#disk {
+    background: #1e1e2e;
+    opacity: 0.8;
+    padding: 0px 5px;
+    margin: 3px 0px;
+    margin-top: 5px;
+    border: 1px solid #181825;
+}
+
+/* close to left */
+#clock, #network, #cpu, #backlight, #custom-myhyprv {
+    border-radius: 5px 0px 0px 5px;
+}
+
+/*close to the right */
+#pulseaudio, #disk, #workspaces {
+    border-radius: 0px 5px 5px 0px;
+    margin-right: 5px;
+}
+
+/*close on both sides*/
+#window, #tray, #custom-archbtw {
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+#workspaces {
+    padding-right: 0px;
+    padding-left: 5px;
+}
+
+#disk {
+    color: #cba6f7;
+}
+
+#window {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#clock {
+    color: #fab387;
+    border-right: 0px;
+    margin-left: 5px;
+}
+
+#network {
+    color: #f9e2af;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+#bluetooth {
+    color: #89b4fa;
+}
+
+#pulseaudio {
+    color: #cba6f7;
+    border-left: 0px;
+    border-right: 0px;
+    margin-right: 5px;
+}
+
+#memory {
+    color: #fab387;
+}
+
+#cpu {
+    color: #a6e3a1;
+}
+
+#custom-archbtw {
+    color: #89b4fa;
+    margin-right: 5px;
+}
