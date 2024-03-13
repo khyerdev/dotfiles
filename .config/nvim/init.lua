@@ -486,7 +486,7 @@ require('lazy').setup({
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
-          map('<leader>hd', vim.lsp.buf.hover, 'Hover Documentation')
+          map('<leader>hd', "<cmd>lua vim.lsp.buf.hover()<CR><cmd>lua vim.lsp.buf.hover()<CR>", 'Hover Documentation')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header
@@ -532,9 +532,7 @@ require('lazy').setup({
       htmlcapabilities.textDocument.completion.completionItem.snippetSupport = true
 
       local servers = {
-        -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
         rust_analyzer = {},
         html = {
           capabilities = htmlcapabilities,
@@ -542,7 +540,6 @@ require('lazy').setup({
         cssls = {
           capabilities = htmlcapabilities,
         },
-        biome = {},
         pyright = {},
         clangd = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -783,6 +780,9 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+
+      -- NOTE: Remove this if it gets annoying (tag: TOREMOVE)
+      require('mini.pairs').setup()
     end,
   },
 
@@ -831,8 +831,6 @@ require('lazy').setup({
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
 }, {
   ui = {
     -- If you have a Nerd Font, set icons to an empty table which will use the
@@ -857,6 +855,7 @@ require('lazy').setup({
 
 require('live-server').setup()
 
+-- im too lazy to port this to actual lua based remapping
 vim.cmd("nnoremap <A-j> :m .+1<CR>==")
 vim.cmd("nnoremap <A-k> :m .-2<CR>==")
 vim.cmd("inoremap <A-j> <Esc>:m .+1<CR>==gi")

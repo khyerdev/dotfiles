@@ -101,11 +101,16 @@
     },
 
     "clock": {
-        "format": "{:%I:%M%p}",
-        "tooltip-format": "{: %A, %B %e %Y}"
+        "format": "{:%I:%M:%S %p}",
+        "tooltip-format": "{: %A, %B %e %Y}",
+        "interval": 1
     },
 
     "custom/archbtw": {
-        "format": "󰣇 btw"
+        "format": "{}",
+        "exec": "~/.config/HyprV/waybar/scripts/custom/random json",
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/HyprV/waybar/scripts/custom/random > /tmp/motivational-quote; kitty --start-as=fullscreen --title \"Motivational Quote\" sh -c 'nvim /tmp/motivational-quote'; rm /tmp/motivational-quote"
     }
 }

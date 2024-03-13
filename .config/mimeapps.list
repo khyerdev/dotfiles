@@ -1,6 +1,6 @@
 [Default Applications]
-application/x-zerosize=vlc.desktop
+application/x-zerosize=swappy.desktop
 
 [Added Associations]
-application/x-zerosize=vlc.desktop;
-image/png=swappy.desktop;
+application/x-zerosize=vlc.desktop;swappy.desktop;
+image/png=gimp.desktop;swappy.desktop;
