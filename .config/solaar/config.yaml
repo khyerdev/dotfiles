@@ -1,0 +1,39 @@
+- 1.1.11
+- _NAME: G502 Gaming Mouse
+  _absent: [hi-res-scroll, lowres-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert, thumb-scroll-mode, report_rate_extended, pointer_speed,
+    speed-change, backlight, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, fn-swap,
+    reprogrammable-keys, persistent-remappable-keys, divert-keys, disable-keyboard-keys, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led,
+    multiplatform, change-host, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
+  _battery: 0x1001
+  _modelId: 407FC08D0000
+  _sensitive: {dpi: false, led_control: false, led_zone_1: false, led_zone_2: false, onboard_profiles: false}
+  _serial: 178C1ACD
+  _unitId: 178C1ACD
+  _wpid: 407F
+  dpi: 0x2bc
+  hires-scroll-mode: false
+  hires-smooth-invert: false
+  hires-smooth-resolution: true
+  led_control: 0x1
+  led_zone_1: !LEDEffectSetting {ID: 0x3, color: 0xff0000, intensity: 0x0, period: 0x64, ramp: 0x0, speed: 0x0}
+  led_zone_2: !LEDEffectSetting {ID: 0x3, color: 0xff0000, intensity: 0x0, period: 0xd3a, ramp: 0x0, speed: 0x0}
+  onboard_profiles: 0x0
+  report_rate: 0x1
+- _NAME: G915 WIRELESS RGB MECHANICAL GAMING KEYBOARD
+  _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert,
+    thumb-scroll-mode, report_rate_extended, pointer_speed, dpi, speed-change, backlight, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in,
+    backlight_duration_powered, backlight-timed, led_control, led_zone_, fn-swap, reprogrammable-keys, persistent-remappable-keys, disable-keyboard-keys,
+    crown-smooth, divert-crown, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
+  _battery: 0x1001
+  _modelId: B354407CC33E
+  _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
+  _serial: 8728F9DF
+  _unitId: 8728F9DF
+  _wpid: 407C
+  change-host: null
+  divert-gkeys: false
+  divert-keys: {0xd1: 0x0, 0xd2: 0x0}
+  m-key-leds: {0x1: false, 0x2: false, 0x4: false}
+  mr-key-led: false
+  onboard_profiles: 0x1
+  report_rate: 0x1

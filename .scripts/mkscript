@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ $1 == "" ]]; then
+	echo "Usage: mkscript [filename] [allow (optional): u|g|o]"
+	exit 1
+fi
+
+echo '#!/usr/bin/env bash' > $1
+echo >> $1
+echo >> $1
+
+unset -e
+
+chmod $2+x $1
+
+if [[ $? != 0 ]]; then
+	echo
+	echo "Invalid mode, 'u', 'g', or 'o' expected."
+fi
