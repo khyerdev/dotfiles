@@ -293,25 +293,15 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     fi 
     
     # stage the .desktop file
-    sudo cp Extras/hyprland.desktop /usr/share/wayland-sessions/
+    sudo cp hyprland.desktop /usr/share/wayland-sessions/
 
     # setup the first look and feel as dark
     xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
     xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
     gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
     gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-    # TODO: also change next line
-    cp -f ~/.config/HyprV/backgrounds/v4-background-dark.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
-fi
 
-### Install the starship shell ###
-read -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
-if [[ $STAR == "Y" || $STAR == "y" ]]; then
-    # install the starship shell
-    echo -e "$CNT - Updating .bashrc..."
-    echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
-    echo -e "$CNT - copying starship config file to ~/.config ..."
-    cp Extras/starship.toml ~/.config/
+    cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi
 
 ### Script is done ###
