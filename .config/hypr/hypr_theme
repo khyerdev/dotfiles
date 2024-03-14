@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 
-swww img $1
 xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
 gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-pkill waybar
-waybar & 
+
+if [[ $1 == "random" && $2 != "" ]]; then
+	while true; do
+		ls -1 $HOME/.config/hypr/backgrounds | shuf | while IFS= read -r line; do
+			case $(($RANDOM % 3)) in
+				0) TYPE=wipe ;;
+				1) TYPE=grow ;;
+				2) TYPE=any ;;
+			esac
+			swww img $HOME/.config/hypr/backgrounds/$line -t $TYPE --transition-angle 45 --transition-step 8
+			sleep $2
+		done
+	done
+else
+	swww img $1
+fi
