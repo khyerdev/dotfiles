@@ -250,6 +250,12 @@ if [[ $INST == "Y" || $INST == "y" ]]; thenV
     echo -e "$CNT - Installing Hyprland, this may take a while..."   
     install_software hyprland
 
+    echo -e "$CNT - Installing software development tools..."   
+    for SOFTWR in ${dev_stage[@]}; do
+        install_software $SOFTWR 
+    done
+    rustup default stable &>> $INSTLOG
+
     # Stage 1 - main components
     echo -e "$CNT - Installing main components, this may take a while..."
     for SOFTWR in ${install_stage[@]}; do
