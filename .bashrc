@@ -10,8 +10,14 @@ alias grep='grep --color=auto'
 alias lsa='ls -laoh'
 alias pacman='pacman --color=auto'
 alias rebar='~/.config/HyprV/hyprv_util setbg &'
-PS1='[\u@\h \W]\$ '
+alias nvimcfg='nvim ~/.config/nvim/init.lua'
+alias hyprcfg='nvim $HOME/.config/hypr/hyprland.conf'
+alias ard='arduino-cli'
+alias resetdpi='solaar config "G502 Gaming Mouse" dpi 700'
 
+export EDITOR=nvim
+
+PS1='[\u@\h \W]\$ '
 eval "$(starship init bash)"
 
 # pnpm

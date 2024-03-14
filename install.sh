@@ -276,7 +276,11 @@ read -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) '
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
 
+    chown -R $USER:$USER .
     cp -rf ./.config $HOME/
+    chmod +x ./.scripts/*
+    sudo cp -f ./.scripts/* /usr/bin
+    cp -f ./.bashrc ../
 
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."
