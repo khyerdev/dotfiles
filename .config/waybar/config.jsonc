@@ -42,10 +42,10 @@
         "format": "{icon} {volume}%",
         "tooltip": false,
         "format-muted": " Muted",
-        "on-click": "~/.config/HyprV/waybar/scripts/volume --toggle",
+        "on-click": "~/.config/waybar/scripts/volume --toggle",
         "on-click-right": "pavucontrol",
-        "on-scroll-up": "~/.config/HyprV/waybar/scripts/volume --inc",
-        "on-scroll-down": "~/.config/HyprV/waybar/scripts/volume --dec",
+        "on-scroll-up": "~/.config/waybar/scripts/volume --inc",
+        "on-scroll-down": "~/.config/waybar/scripts/volume --dec",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -108,9 +108,9 @@
 
     "custom/archbtw": {
         "format": "{}",
-        "exec": "~/.config/HyprV/waybar/scripts/custom/random json",
+        "exec": "~/.config/waybar/scripts/random json",
         "return-type": "json",
         "tooltip": true,
-        "on-click": "~/.config/HyprV/waybar/scripts/custom/random > /tmp/motivational-quote; kitty --start-as=fullscreen --title \"Motivational Quote\" sh -c 'nvim /tmp/motivational-quote'; rm /tmp/motivational-quote"
+        "on-click": "~/.config/waybar/scripts/random > /tmp/motivational-quote; kitty --start-as=fullscreen --title \"Motivational Quote\" sh -c 'nvim /tmp/motivational-quote'; rm /tmp/motivational-quote"
     }
 }
