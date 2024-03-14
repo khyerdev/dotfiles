@@ -276,7 +276,7 @@ read -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) '
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
 
-    # TODO: my own config
+    cp -rf ./.config $HOME/
 
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."
