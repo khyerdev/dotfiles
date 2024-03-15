@@ -43,7 +43,7 @@ nvidia_stage=(
 dev_stage=(
     rustup
     gcc
-    node
+    nodejs
     npm
     pnpm
 )
