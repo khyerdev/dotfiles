@@ -319,8 +319,8 @@ fi
 echo -e "$CNT - Script had completed!"
 if [[ "$ISNVIDIA" == true ]]; then 
     echo -e "$CAT - We attempted to set up an NVIDIA GPU.
-    In order for Hyprland to work properly, you must follow the directions in 'https://github.com/korvahannu/arch-nvidia-drivers-installation-guide' as this script was not able to do some of them. The NVIDIA driver that was automatically installed is 'nvidia-dkms', so you can skip the first step.
-    After that, reboot and you should be good."
+In order for Hyprland to work properly, you must follow the directions in 'https://github.com/korvahannu/arch-nvidia-drivers-installation-guide' as this script was not able to do some of them. The NVIDIA driver that was automatically installed is 'nvidia-dkms', so you can skip the first and second steps.
+After that, reboot and you should be good."
     exit
 else
     read -rep $'[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
