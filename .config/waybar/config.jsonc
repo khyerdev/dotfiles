@@ -12,7 +12,6 @@
     ],
     "modules-center": ["hyprland/window"],
     "modules-right": [
-        "network",
         "bluetooth",
         "pulseaudio",
         "tray",

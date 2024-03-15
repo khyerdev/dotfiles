@@ -70,7 +70,7 @@ tooltip {
 }
 
 /* close to left */
-#clock, #network, #cpu, #backlight, #custom-myhyprv {
+#clock, #bluetooth, #cpu, #backlight, #custom-myhyprv {
     border-radius: 5px 0px 0px 5px;
 }
 
