@@ -285,6 +285,14 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
 fi
 
+read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
+if [[ $INST == "Y" || $INST == "y" ]]; then
+    echo -en "$CNT - Now installing the needed fonts ."
+    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG &
+    show_progress $!
+    echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
+fi
+
 ### Copy Config Files ###
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
@@ -324,10 +332,15 @@ fi
 
 ### Script is done ###
 echo -e "$CNT - Script had completed!"
+sleep 1
+echo -e "$CNT - The wallpaper manager 'swww' can't immediately show a wallpaper the first time you log into Hyprland.
+When this happens, run swww img {path to any image}, or if you copied my config, run '$HOME/.config/hypr/hypr_theme $HOME/.config/hypr/background/{any image in this folder}'."
+sleep 2
 if [[ "$ISNVIDIA" == true ]]; then 
     echo -e "$CAT - We attempted to set up an NVIDIA GPU.
 In order for Hyprland to work properly, you must follow the directions in 'https://github.com/korvahannu/arch-nvidia-drivers-installation-guide' as this script was not able to do some of them. The NVIDIA driver that was automatically installed is 'nvidia-dkms', so you can skip the first and second steps.
 After that, reboot and you should be good."
+    sleep 5
     exit
 else
     read -rep $'[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
