@@ -46,6 +46,7 @@ dev_stage=(
     nodejs
     npm
     pnpm
+    python-pip
 )
 
 #the main packages
@@ -84,7 +85,13 @@ install_stage=(
     nwg-look-bin
     sddm
     curl
+    wget
+    tree-sitter
+    ripgrep
+    fzf
+    fd
     neovim
+    python-neovim
 )
 
 for str in ${myArray[@]}; do
