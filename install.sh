@@ -254,6 +254,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     for SOFTWR in ${dev_stage[@]}; do
         install_software $SOFTWR 
     done
+    echo -e "$CNT - Setting up the default rust toolchain..."   
     rustup default stable &>> $INSTLOG
 
     # Stage 1 - main components
