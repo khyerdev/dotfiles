@@ -7,10 +7,10 @@
     "gtk-layer-shell": true,
     "height": 10,
     "modules-left": [
-        "clock",
+        "custom/archbtw",
         "hyprland/workspaces"
     ],
-    "modules-center": ["hyprland/window"],
+    "modules-center": ["clock"],
     "modules-right": [
         "bluetooth",
         "pulseaudio",
@@ -18,12 +18,7 @@
         "cpu",
         "memory",
         "disk",
-        "custom/archbtw"
     ],
-
-    "hyprland/window": {
-        "format": "quar? {}"
-    },
 
     "hyprland/workspaces": {
         "disable-scroll": true,
@@ -55,15 +50,6 @@
             "car": "",
             "default": ["", "", ""]
         }
-    },
-
-    "network": {
-        "format-wifi": "  {signalStrength}%",
-        "format-ethernet": "󰈀 ",
-        "tooltip-format": "{ipaddr} from {gwaddr}",
-        "format-linked": "{ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected ⚠",
-        "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}"
     },
 
     "bluetooth": {
@@ -100,8 +86,7 @@
     },
 
     "clock": {
-        "format": "{:%I:%M:%S %p}",
-        "tooltip-format": "{: %A, %B %e %Y}",
+        "format": "{: %A, %B %e %Y @ %I:%M:%S %p}",
         "interval": 1
     },
 

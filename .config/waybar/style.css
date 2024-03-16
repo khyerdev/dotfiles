@@ -48,11 +48,9 @@ tooltip {
     border-radius: 5px;
 }
 
-#custom-weather,
 #window,
 #clock,
 #pulseaudio,
-#network,
 #bluetooth,
 #temperature,
 #workspaces,
@@ -70,7 +68,7 @@ tooltip {
 }
 
 /* close to left */
-#clock, #bluetooth, #cpu, #backlight, #custom-myhyprv {
+#bluetooth, #cpu, #custom-archbtw {
     border-radius: 5px 0px 0px 5px;
 }
 
@@ -81,7 +79,7 @@ tooltip {
 }
 
 /*close on both sides*/
-#window, #tray, #custom-archbtw {
+#tray, #clock{
     border-radius: 5px;
     margin-right: 5px;
 }
@@ -101,14 +99,7 @@ tooltip {
 }
 
 #clock {
-    color: #fab387;
-    border-right: 0px;
-    margin-left: 5px;
-}
-
-#network {
-    color: #f9e2af;
-    border-left: 0px;
+    color: #cbc0ff;
     border-right: 0px;
 }
 
@@ -133,5 +124,5 @@ tooltip {
 
 #custom-archbtw {
     color: #89b4fa;
-    margin-right: 5px;
+    margin-left: 5px;
 }
