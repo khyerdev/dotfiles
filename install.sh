@@ -304,7 +304,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     sudo cp -f ./.scripts/* /usr/bin
     cp -f ./.bashrc ../
 
-    echo "export QT_QPA_PLATFORMTHEME=qt6ct" >> $HOME/.profile 
+    sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
 
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."
