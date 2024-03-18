@@ -13,8 +13,8 @@ if [[ $1 == "random" && $2 != "" ]]; then
 				1) TYPE=grow ;;
 				2) TYPE=any ;;
 			esac
-			swww img $HOME/.config/hypr/backgrounds/$line -t $TYPE --transition-angle 45 --transition-step 8
 			sleep $2
+			swww img $HOME/.config/hypr/backgrounds/$line -t $TYPE --transition-angle 45 --transition-step 8
 		done
 	done
 else
