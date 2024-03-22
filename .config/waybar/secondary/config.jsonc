@@ -1,0 +1,43 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 12,
+    "modules-left": [
+        "custom/archbtw",
+        "user"
+    ],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": [
+        "tray"
+    ],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+    },
+
+    "tray": {
+        "icon-size": 12,
+        "spacing": 10
+    },
+
+    "user": {
+        "icon": true,
+        "format": " {user}",
+        "width": 16,
+        "height": 16
+    },
+
+    "custom/archbtw": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/random json",
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/scripts/random > /tmp/motivational-quote; kitty --start-as=fullscreen --title \"Motivational Quote\" sh -c 'nvim /tmp/motivational-quote'; rm /tmp/motivational-quote"
+    }
+}

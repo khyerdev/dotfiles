@@ -21,14 +21,16 @@ tooltip {
 }
 
 #workspaces button {
-    padding: 2px;
+    padding: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
     color: #313244;
-    margin-right: 5px;
 }
 
 #workspaces button.active {
     color: #a6adc8;
-    border-bottom: 2px solid #cbc0ff;
+    border-top: 2px solid #cbc0ff;
+    padding: 0px 10px 0px 10px;
 }
 
 #workspaces button.focused {
@@ -56,6 +58,7 @@ tooltip {
 #temperature,
 #workspaces,
 #tray,
+#user,
 #custom-archbtw,
 #cpu,
 #memory,
@@ -73,20 +76,16 @@ tooltip {
 }
 
 /*close to the right */
-#pulseaudio, #disk, #workspaces {
+#pulseaudio, #disk, #user {
     border-radius: 0px 5px 5px 0px;
     margin-right: 5px;
 }
 
 /*close on both sides*/
-#tray, #clock{
+#tray, #clock, #workspaces {
     border-radius: 5px;
     margin-right: 5px;
-}
-
-#workspaces {
-    padding-right: 0px;
-    padding-left: 5px;
+    margin-left: 5px;
 }
 
 #disk {
@@ -104,6 +103,7 @@ tooltip {
 }
 
 #bluetooth {
+    margin-left: 5px;
     color: #89b4fa;
 }
 
@@ -123,6 +123,10 @@ tooltip {
 }
 
 #custom-archbtw {
-    color: #89b4fa;
+    color: #89f6ff;
     margin-left: 5px;
+}
+
+#user {
+    color: #89b4fa;
 }
