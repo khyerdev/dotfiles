@@ -324,13 +324,21 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     # stage the .desktop file
     sudo cp hyprland.desktop /usr/share/wayland-sessions/
 
+    echo -e "$CNT - Setting themes..."
+
     # setup the first look and feel as dark
     xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
     xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 
-    cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
+    xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
+    gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
+
+    gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
+
+    gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
+
+    sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi
 
 ### Script is done ###
