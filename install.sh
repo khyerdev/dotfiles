@@ -118,7 +118,7 @@ show_progress() {
         sleep 2
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 1
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -191,7 +191,6 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     echo -e "$CNT - The following file has been created $LOC.\n"
     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -en "$CNT - Restarting NetworkManager service, Please wait."
-    sleep 2
     sudo systemctl restart NetworkManager &>> $INSTLOG
     
     #wait for services to restore (looking at you DNS)
@@ -201,7 +200,7 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
         sleep 1
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 1
     echo -e "\e[1A\e[K$COK - NetworkManager restart completed."
 fi
 
@@ -273,12 +272,10 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     # Start the bluetooth service
     echo -e "$CNT - Starting the Bluetooth Service..."
     sudo systemctl enable --now bluetooth.service &>> $INSTLOG
-    sleep 2
 
     # Enable the sddm login manager service
     echo -e "$CNT - Enabling the SDDM Service..."
     sudo systemctl enable sddm &>> $INSTLOG
-    sleep 2
     
     # Clean out other portals
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
