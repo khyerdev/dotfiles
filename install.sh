@@ -284,8 +284,9 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
     yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
     
-    # dont tell nobody
+    echo -e "$CNT - Copying theme files..."
     sudo cp -r ./.themes/* /usr/share/themes/
+    sudo cp -r ./.icons/* /usr/share/icons/
 fi
 
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
