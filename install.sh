@@ -118,7 +118,7 @@ show_progress() {
         sleep 2
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 1
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -191,7 +191,6 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     echo -e "$CNT - The following file has been created $LOC.\n"
     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -en "$CNT - Restarting NetworkManager service, Please wait."
-    sleep 2
     sudo systemctl restart NetworkManager &>> $INSTLOG
     
     #wait for services to restore (looking at you DNS)
@@ -201,7 +200,7 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
         sleep 1
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 1
     echo -e "\e[1A\e[K$COK - NetworkManager restart completed."
 fi
 
@@ -273,16 +272,18 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     # Start the bluetooth service
     echo -e "$CNT - Starting the Bluetooth Service..."
     sudo systemctl enable --now bluetooth.service &>> $INSTLOG
-    sleep 2
 
     # Enable the sddm login manager service
     echo -e "$CNT - Enabling the SDDM Service..."
     sudo systemctl enable sddm &>> $INSTLOG
-    sleep 2
     
     # Clean out other portals
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
     yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
+    
+    echo -e "$CNT - Copying theme files..."
+    sudo cp -r ./.themes/* /usr/share/themes/
+    sudo cp -r ./.icons/* /usr/share/icons/
 fi
 
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
@@ -323,13 +324,21 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     # stage the .desktop file
     sudo cp hyprland.desktop /usr/share/wayland-sessions/
 
+    echo -e "$CNT - Setting themes..."
+
     # setup the first look and feel as dark
     xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
     xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 
-    cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
+    xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
+    gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
+
+    gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
+
+    gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
+
+    sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi
 
 ### Script is done ###
