@@ -90,6 +90,10 @@ install_stage=(
     ripgrep
     fzf
     fd
+    zoxide
+    exa
+    fish
+    bat
     neovim
     python-neovim
 )
@@ -130,7 +134,7 @@ install_software() {
         # no package found so installing
         echo -en "$CNT - Now installing $1 ."
         yay -S --noconfirm $1 &>> $INSTLOG &
-        show_progress $!
+        # show_progress $!
         # test to make sure package installed
         if yay -Q $1 &>> /dev/null ; then
             echo -e "\e[1A\e[K$COK - $1 was installed."
@@ -300,10 +304,11 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
 
     chown -R $USER:$USER .
-    cp -rf ./.config $HOME/
+    cp -br ./.config $HOME/
     chmod +x ./.scripts/*
-    sudo cp -f ./.scripts/* /usr/bin
-    cp -f ./.bashrc ../
+    sudo cp -b ./.scripts/* /usr/bin
+    cp -b ./.bashrc ../
+    bat cache --build
 
     sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
 
