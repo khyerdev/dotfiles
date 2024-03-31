@@ -303,10 +303,10 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
 
     chown -R $USER:$USER .
-    cp -br ./.config $HOME/
+    cp -rf ./.config $HOME/
     chmod +x ./.scripts/*
-    sudo cp -b ./.scripts/* /usr/bin
-    cp -b ./.bashrc ../
+    sudo cp -f ./.scripts/* /usr/bin
+    cp -f ./.bashrc ../
     bat cache --build &>> $INSTLOG
 
     sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
