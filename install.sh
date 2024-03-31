@@ -118,8 +118,11 @@ INSTLOG="install.log"
 show_progress() {
     while ps | grep $1 &> /dev/null;
     do
-        sleep 0.01
+        echo -n "."
+        sleep 1
     done
+    echo -en "Done!\n"
+    sleep 0.5
 }
 
 # function that will test for a package and if not found it will attempt to install it
