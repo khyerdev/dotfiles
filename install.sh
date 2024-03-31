@@ -90,6 +90,10 @@ install_stage=(
     ripgrep
     fzf
     fd
+    zoxide
+    exa
+    fish
+    bat
     neovim
     python-neovim
 )
@@ -115,10 +119,10 @@ show_progress() {
     while ps | grep $1 &> /dev/null;
     do
         echo -n "."
-        sleep 2
+        sleep 1
     done
     echo -en "Done!\n"
-    sleep 1
+    sleep 0.5
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -157,8 +161,7 @@ echo -e "$CNT - Checking for Physical or VM..."
 ISVM=$(hostnamectl | grep Chassis)
 echo -e "Using $ISVM"
 if [[ $ISVM == *"vm"* ]]; then
-    echo -e "$CWR - Please note that VMs are not fully supported and if you try to run this on
-    a Virtual Machine there is a high chance this will fail."
+    echo -e "$CWR - Please note that VMs are not fully supported and if you try to run this on a Virtual Machine there is a high chance this will fail."
     sleep 1
 fi
 
@@ -171,7 +174,7 @@ sleep 1
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' CONTINST
 if [[ $CONTINST == "Y" || $CONTINST == "y" ]]; then
     echo -e "$CNT - Setup starting..."
-    sudo touch /tmp/hyprv.tmp
+    sudo touch /tmp/hypr.tmp
 else
     echo -e "$CNT - This script will now exit, no changes were made to your system."
     exit
@@ -304,6 +307,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     chmod +x ./.scripts/*
     sudo cp -f ./.scripts/* /usr/bin
     cp -f ./.bashrc ../
+    bat cache --build &>> $INSTLOG
 
     sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
 
