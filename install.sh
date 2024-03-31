@@ -118,11 +118,8 @@ INSTLOG="install.log"
 show_progress() {
     while ps | grep $1 &> /dev/null;
     do
-        echo -n "."
-        sleep 2
+        sleep 0.01
     done
-    echo -en "Done!\n"
-    sleep 1
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -134,7 +131,7 @@ install_software() {
         # no package found so installing
         echo -en "$CNT - Now installing $1 ."
         yay -S --noconfirm $1 &>> $INSTLOG &
-        # show_progress $!
+        show_progress $!
         # test to make sure package installed
         if yay -Q $1 &>> /dev/null ; then
             echo -e "\e[1A\e[K$COK - $1 was installed."
