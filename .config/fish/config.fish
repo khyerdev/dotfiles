@@ -17,8 +17,10 @@ if status is-interactive
 
     export EDITOR=nvim
 
-    set PS1 '[\u@\h \W]\$ '
-    eval "$(starship init fish)"
+    if not tty | grep tty &>> /dev/null
+        set PS1 '[\u@\h \W]\$ '
+        eval "$(starship init fish)"
+    end
 
     # pnpm
     export PNPM_HOME="/home/khyernet/.local/share/pnpm"
