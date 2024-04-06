@@ -294,7 +294,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
         # Install the correct hyprland version
         echo -e "$CNT - Installing Hyprland, this may take a while..."   
-        install_software hyprland
+        yay -S --noconfirm hyprland &>> $INSTLOG
     
         echo -e "$CNT - Installing software development tools..."   
         yay -S --noconfirm ${dev_stage[@]} &>> $INSTLOG
@@ -326,8 +326,7 @@ fi
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -en "$CNT - Now installing the needed fonts ."
-    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG &
-    show_progress $!
+    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG
     echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
 fi
 
