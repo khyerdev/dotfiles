@@ -42,6 +42,7 @@ nvidia_stage=(
 
 dev_stage=(
     rustup
+    rust-src
     gcc
     nodejs
     npm
@@ -65,6 +66,7 @@ install_stage=(
     thunar 
     btop
     firefox
+    vivaldi
     mpv
     pamixer 
     pavucontrol 
@@ -90,6 +92,12 @@ install_stage=(
     ripgrep
     fzf
     fd
+    zoxide
+    exa
+    fish
+    bat
+    setcolors-git
+    mkinitcpio-colors-git
     neovim
     python-neovim
 )
@@ -115,10 +123,10 @@ show_progress() {
     while ps | grep $1 &> /dev/null;
     do
         echo -n "."
-        sleep 2
+        sleep 1
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 0.5
 }
 
 # function that will test for a package and if not found it will attempt to install it
@@ -157,8 +165,7 @@ echo -e "$CNT - Checking for Physical or VM..."
 ISVM=$(hostnamectl | grep Chassis)
 echo -e "Using $ISVM"
 if [[ $ISVM == *"vm"* ]]; then
-    echo -e "$CWR - Please note that VMs are not fully supported and if you try to run this on
-    a Virtual Machine there is a high chance this will fail."
+    echo -e "$CWR - Please note that VMs are not fully supported and if you try to run this on a Virtual Machine there is a high chance this will fail."
     sleep 1
 fi
 
@@ -171,7 +178,7 @@ sleep 1
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' CONTINST
 if [[ $CONTINST == "Y" || $CONTINST == "y" ]]; then
     echo -e "$CNT - Setup starting..."
-    sudo touch /tmp/hyprv.tmp
+    sudo touch /tmp/hypr.tmp
 else
     echo -e "$CNT - This script will now exit, no changes were made to your system."
     exit
@@ -191,7 +198,6 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     echo -e "$CNT - The following file has been created $LOC.\n"
     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -en "$CNT - Restarting NetworkManager service, Please wait."
-    sleep 2
     sudo systemctl restart NetworkManager &>> $INSTLOG
     
     #wait for services to restore (looking at you DNS)
@@ -201,7 +207,7 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
         sleep 1
     done
     echo -en "Done!\n"
-    sleep 2
+    sleep 1
     echo -e "\e[1A\e[K$COK - NetworkManager restart completed."
 fi
 
@@ -228,68 +234,99 @@ if [ ! -f /sbin/yay ]; then
     fi
 fi
 
-
-
 ### Install all of the above pacakges ####
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
 
-    # Prep Stage - Bunch of needed items
-    echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
-    for SOFTWR in ${prep_stage[@]}; do
-        install_software $SOFTWR 
-    done
+    read -rep $'[\e[1;33mACTION\e[0m] - Do you want a quiet (fast) install or a verbose (slow) insall? (Q,v) ' VERB
 
-    # Setup Nvidia if it was found
-    if [[ "$ISNVIDIA" == true ]]; then
-        echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
-        for SOFTWR in ${nvidia_stage[@]}; do
-            install_software $SOFTWR
+    if [[ $VERB == "V" || $VERB == "v" ]]; then
+        # Prep Stage - Bunch of needed items
+        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
+        for SOFTWR in ${prep_stage[@]}; do
+            install_software $SOFTWR 
         done
+
+        # Setup Nvidia if it was found
+        if [[ "$ISNVIDIA" == true ]]; then
+            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
+            for SOFTWR in ${nvidia_stage[@]}; do
+                install_software $SOFTWR
+            done
     
-        # update config
-        sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-        sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
-        echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            # update config
+            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+            sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
+            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+        fi
+    
+        # Install the correct hyprland version
+        echo -e "$CNT - Installing Hyprland, this may take a while..."   
+        install_software hyprland
+    
+        echo -e "$CNT - Installing software development tools..."   
+        for SOFTWR in ${dev_stage[@]}; do
+            install_software $SOFTWR 
+        done
+        echo -e "$CNT - Setting up the default rust toolchain..."   
+        rustup default stable &>> $INSTLOG
+    
+        # Stage 1 - main components
+        echo -e "$CNT - Installing main components, this may take a while..."
+        for SOFTWR in ${install_stage[@]}; do
+            install_software $SOFTWR 
+        done
+    else
+        # Prep Stage - Bunch of needed items
+        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
+        yay -S --noconfirm ${prep_stage[@]} &>> $INSTLOG
+        #
+        # Setup Nvidia if it was found
+        if [[ "$ISNVIDIA" == true ]]; then
+            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
+            yay -S --noconfirm ${nvidia_stage[@]} &>> $INSTLOG
+    
+            # update config
+            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+            sudo mkinitcpio -P
+            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+        fi
+    
+        # Install the correct hyprland version
+        echo -e "$CNT - Installing Hyprland, this may take a while..."   
+        yay -S --noconfirm hyprland &>> $INSTLOG
+    
+        echo -e "$CNT - Installing software development tools..."   
+        yay -S --noconfirm ${dev_stage[@]} &>> $INSTLOG
+        echo -e "$CNT - Setting up the default rust toolchain..."   
+        rustup default stable &>> $INSTLOG
+    
+        # Stage 1 - main components
+        echo -e "$CNT - Installing main components, this may take a while..."
+        yay -S --noconfirm ${install_stage[@]} &>> $INSTLOG
     fi
-
-    # Install the correct hyprland version
-    echo -e "$CNT - Installing Hyprland, this may take a while..."   
-    install_software hyprland
-
-    echo -e "$CNT - Installing software development tools..."   
-    for SOFTWR in ${dev_stage[@]}; do
-        install_software $SOFTWR 
-    done
-    echo -e "$CNT - Setting up the default rust toolchain..."   
-    rustup default stable &>> $INSTLOG
-
-    # Stage 1 - main components
-    echo -e "$CNT - Installing main components, this may take a while..."
-    for SOFTWR in ${install_stage[@]}; do
-        install_software $SOFTWR 
-    done
 
     # Start the bluetooth service
     echo -e "$CNT - Starting the Bluetooth Service..."
     sudo systemctl enable --now bluetooth.service &>> $INSTLOG
-    sleep 2
 
     # Enable the sddm login manager service
     echo -e "$CNT - Enabling the SDDM Service..."
     sudo systemctl enable sddm &>> $INSTLOG
-    sleep 2
     
     # Clean out other portals
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
     yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
+    
+    echo -e "$CNT - Copying theme files..."
+    sudo cp -r ./.themes/* /usr/share/themes/
+    sudo cp -r ./.icons/* /usr/share/icons/
 fi
 
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -en "$CNT - Now installing the needed fonts ."
-    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG &
-    show_progress $!
+    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG
     echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
 fi
 
@@ -303,8 +340,9 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     chmod +x ./.scripts/*
     sudo cp -f ./.scripts/* /usr/bin
     cp -f ./.bashrc ../
+    bat cache --build &>> $INSTLOG
 
-    sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
+    sudo ln -s /usr/bin/kitty /usr/bin/xdg-terminal-exec
 
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."
@@ -323,13 +361,21 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     # stage the .desktop file
     sudo cp hyprland.desktop /usr/share/wayland-sessions/
 
+    echo -e "$CNT - Setting themes..."
+
     # setup the first look and feel as dark
     xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
     xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 
-    cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
+    xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
+    gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
+
+    gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
+
+    gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
+
+    sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi
 
 ### Script is done ###
@@ -337,6 +383,8 @@ echo -e "$CNT - Script had completed!"
 sleep 1
 echo -e "$CNT - The wallpaper manager 'swww' can't immediately show a wallpaper the first time you log into Hyprland.
 When this happens, run swww img {path to any image}, or if you copied my config, run '$HOME/.config/hypr/hypr_theme $HOME/.config/hypr/background/{any image in this folder}'."
+echo -e "$CNT - To set the tokyonight tty colorscheme, add the 'colors' hook to /etc/mkinicpio.conf and run mkinitcpio -P"
+echo -e "$CNT - To enable the fish shell, replace /bin/bash in the passwd file the the line of your username with /bin/fish"
 sleep 2
 if [[ "$ISNVIDIA" == true ]]; then 
     echo -e "$CAT - We attempted to set up an NVIDIA GPU.

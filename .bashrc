@@ -5,15 +5,19 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
+alias ls='exa -x'
+alias lsa='exa -laahXM --smart-group --git --no-quotes'
+alias lst='exa -lahXMT --smart-group --git --no-quotes'
+alias lstg='lst --git-ignore'
+alias lsgt='lstg'
 alias grep='grep --color=auto'
-alias lsa='ls -laoh'
 alias pacman='pacman --color=auto'
-alias rebar='~/.config/HyprV/hyprv_util setbg &'
 alias nvimcfg='nvim ~/.config/nvim/init.lua'
 alias hyprcfg='nvim $HOME/.config/hypr/hyprland.conf'
 alias ard='arduino-cli'
 alias resetdpi='solaar config "G502 Gaming Mouse" dpi 700'
+alias vi='/bin/vim'
+alias vim='nvim'
 
 export EDITOR=nvim
 

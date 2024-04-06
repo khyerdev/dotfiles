@@ -2,8 +2,11 @@
 
 xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
 gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
-gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
+gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
+
+gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
+gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
 
 if [[ $1 == "random" && $2 != "" ]]; then
 	while true; do
