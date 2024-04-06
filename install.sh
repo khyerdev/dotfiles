@@ -310,7 +310,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     cp -f ./.bashrc ../
     bat cache --build &>> $INSTLOG
 
-    sudo echo "QT_QPA_PLATFORMTHEME=qt6ct" >> /etc/environment
     sudo ln -s /usr/bin/kitty /usr/bin/xdg-terminal-exec
 
     # Copy the SDDM theme
