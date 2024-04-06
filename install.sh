@@ -231,47 +231,77 @@ if [ ! -f /sbin/yay ]; then
     fi
 fi
 
-
-
 ### Install all of the above pacakges ####
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
 
-    # Prep Stage - Bunch of needed items
-    echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
-    for SOFTWR in ${prep_stage[@]}; do
-        install_software $SOFTWR 
-    done
+    read -rep $'[\e[1;33mACTION\e[0m] - Do you want a quiet (fast) install or a verbose (slow) insall? (Q,v) ' VERB
 
-    # Setup Nvidia if it was found
-    if [[ "$ISNVIDIA" == true ]]; then
-        echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
-        for SOFTWR in ${nvidia_stage[@]}; do
-            install_software $SOFTWR
+    if [[ $VERB == "V" || $VERB == "v" ]]; then
+        # Prep Stage - Bunch of needed items
+        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
+        for SOFTWR in ${prep_stage[@]}; do
+            install_software $SOFTWR 
         done
+
+        # Setup Nvidia if it was found
+        if [[ "$ISNVIDIA" == true ]]; then
+            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
+            for SOFTWR in ${nvidia_stage[@]}; do
+                install_software $SOFTWR
+            done
     
-        # update config
-        sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-        sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
-        echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            # update config
+            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+            sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
+            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+        fi
+    
+        # Install the correct hyprland version
+        echo -e "$CNT - Installing Hyprland, this may take a while..."   
+        install_software hyprland
+    
+        echo -e "$CNT - Installing software development tools..."   
+        for SOFTWR in ${dev_stage[@]}; do
+            install_software $SOFTWR 
+        done
+        echo -e "$CNT - Setting up the default rust toolchain..."   
+        rustup default stable &>> $INSTLOG
+    
+        # Stage 1 - main components
+        echo -e "$CNT - Installing main components, this may take a while..."
+        for SOFTWR in ${install_stage[@]}; do
+            install_software $SOFTWR 
+        done
+    else
+        # Prep Stage - Bunch of needed items
+        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
+        yay -S --noconfirm ${prep_stage[@]} &>> $INSTLOG
+        #
+        # Setup Nvidia if it was found
+        if [[ "$ISNVIDIA" == true ]]; then
+            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
+            yay -S --noconfirm ${nvidia_stage[@]} &>> $INSTLOG
+    
+            # update config
+            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+            sudo mkinitcpio -P
+            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+        fi
+    
+        # Install the correct hyprland version
+        echo -e "$CNT - Installing Hyprland, this may take a while..."   
+        install_software hyprland
+    
+        echo -e "$CNT - Installing software development tools..."   
+        yay -S --noconfirm ${dev_stage[@]} &>> $INSTLOG
+        echo -e "$CNT - Setting up the default rust toolchain..."   
+        rustup default stable &>> $INSTLOG
+    
+        # Stage 1 - main components
+        echo -e "$CNT - Installing main components, this may take a while..."
+        yay -S --noconfirm ${install_stage[@]} &>> $INSTLOG
     fi
-
-    # Install the correct hyprland version
-    echo -e "$CNT - Installing Hyprland, this may take a while..."   
-    install_software hyprland
-
-    echo -e "$CNT - Installing software development tools..."   
-    for SOFTWR in ${dev_stage[@]}; do
-        install_software $SOFTWR 
-    done
-    echo -e "$CNT - Setting up the default rust toolchain..."   
-    rustup default stable &>> $INSTLOG
-
-    # Stage 1 - main components
-    echo -e "$CNT - Installing main components, this may take a while..."
-    for SOFTWR in ${install_stage[@]}; do
-        install_software $SOFTWR 
-    done
 
     # Start the bluetooth service
     echo -e "$CNT - Starting the Bluetooth Service..."
