@@ -66,6 +66,7 @@ install_stage=(
     thunar 
     btop
     firefox
+    vivaldi
     mpv
     pamixer 
     pavucontrol 
