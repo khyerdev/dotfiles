@@ -96,6 +96,8 @@ install_stage=(
     exa
     fish
     bat
+    setcolors-git
+    mkinitcpio-colors-git
     neovim
     python-neovim
 )
@@ -382,6 +384,7 @@ echo -e "$CNT - Script had completed!"
 sleep 1
 echo -e "$CNT - The wallpaper manager 'swww' can't immediately show a wallpaper the first time you log into Hyprland.
 When this happens, run swww img {path to any image}, or if you copied my config, run '$HOME/.config/hypr/hypr_theme $HOME/.config/hypr/background/{any image in this folder}'."
+echo -e "$CNT - To set the tokyonight tty colorscheme, add the 'colors' hook to /etc/mkinicpio.conf and run mkinitcpio -P"
 sleep 2
 if [[ "$ISNVIDIA" == true ]]; then 
     echo -e "$CAT - We attempted to set up an NVIDIA GPU.
