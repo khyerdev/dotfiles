@@ -258,7 +258,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     # Install the correct hyprland version
     echo -e "$CNT - Installing Hyprland, this may take a while..."   
-    install_software hyprland
+    install_software hyprland-git
 
     echo -e "$CNT - Installing software development tools..."   
     for SOFTWR in ${dev_stage[@]}; do
