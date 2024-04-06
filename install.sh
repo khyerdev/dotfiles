@@ -385,6 +385,7 @@ sleep 1
 echo -e "$CNT - The wallpaper manager 'swww' can't immediately show a wallpaper the first time you log into Hyprland.
 When this happens, run swww img {path to any image}, or if you copied my config, run '$HOME/.config/hypr/hypr_theme $HOME/.config/hypr/background/{any image in this folder}'."
 echo -e "$CNT - To set the tokyonight tty colorscheme, add the 'colors' hook to /etc/mkinicpio.conf and run mkinitcpio -P"
+echo -e "$CNT - To enable the fish shell, replace /bin/bash in the passwd file the the line of your username with /bin/fish"
 sleep 2
 if [[ "$ISNVIDIA" == true ]]; then 
     echo -e "$CAT - We attempted to set up an NVIDIA GPU.
