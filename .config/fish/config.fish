@@ -2,8 +2,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     alias cd 'z'
     alias ls 'exa -x'
-    alias lsa 'exa -laahXM --smart-group --git --no-quotes'
-    alias lst 'exa -lahXMT --smart-group --git --no-quotes'
+    alias lsa 'exa -laahXM --smart-group --git --no-quotes --icons=always'
+    alias lst 'exa -lahXMT --smart-group --git --no-quotes --icons=always'
     alias lstg 'lst --git-ignore'
     alias lsgt 'lstg'
     alias grep 'grep --color=auto'
@@ -14,6 +14,7 @@ if status is-interactive
     alias resetdpi 'solaar config "G502 Gaming Mouse" dpi 700'
     alias vi '/bin/vim'
     alias vim 'nvim'
+    alias get_tty 'cat /sys/devices/virtual/tty/tty0/active'
 
     export EDITOR=nvim
 
