@@ -55,7 +55,7 @@ install_stage=(
     kitty 
     mako 
     waybar
-    swww 
+    swww-git
     swaylock-effects 
     wofi 
     wlogout 
