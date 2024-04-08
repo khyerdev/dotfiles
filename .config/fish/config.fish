@@ -15,6 +15,7 @@ if status is-interactive
     alias vi '/bin/vim'
     alias vim 'nvim'
     alias get_tty 'cat /sys/devices/virtual/tty/tty0/active'
+    alias tclock 'tty-clock -tscC 4'
 
     export EDITOR=nvim
 
@@ -25,9 +26,4 @@ if status is-interactive
 
     # pnpm
     export PNPM_HOME="/home/khyernet/.local/share/pnpm"
-    switch ":$PATH:"
-    case "*:$PNPM_HOME:*"
-    case "*"
-        export PATH="$PNPM_HOME:$PATH"
-    end
 end
