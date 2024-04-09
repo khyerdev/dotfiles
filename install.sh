@@ -48,6 +48,8 @@ dev_stage=(
     npm
     pnpm
     python-pip
+    neovim
+    python-neovim
 )
 
 #the main packages
@@ -98,8 +100,6 @@ install_stage=(
     bat
     setcolors-git
     mkinitcpio-colors-git
-    neovim
-    python-neovim
 )
 
 for str in ${myArray[@]}; do
@@ -262,7 +262,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
         # Install the correct hyprland version
         echo -e "$CNT - Installing Hyprland, this may take a while..."   
-        install_software hyprland
+        install_software hyprland-git
     
         echo -e "$CNT - Installing software development tools..."   
         for SOFTWR in ${dev_stage[@]}; do
