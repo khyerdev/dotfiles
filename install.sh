@@ -376,13 +376,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
 
     sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
-
-    echo -en "$CAC - Would you like to install the hy3 hyprland plugin? (Y,n) "
-    if hyprpm add https://github.com/outfoxxed/hy3 &>> $INSTLOG; then
-        hyprpm enable hy3 &>> $INSTLOG
-    else
-        echo -e "$CWR - Failed to install hy3 plugin, make sure you remove the last line of the hyprland.conf file"
-    fi
 fi
 
 ### Script is done ###
