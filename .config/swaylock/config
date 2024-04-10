@@ -1,38 +1,37 @@
 daemonize
-show-failed-attempts
 clock
 screenshot
 effect-blur=9x5
 effect-vignette=0.5:0.5
 color=1f1d2e80
-font="Inter"
+font="JetBrainsMono Nerd Font"
 indicator
-indicator-radius=200
+indicator-radius=300
 indicator-thickness=20
-line-color=1f1d2e
-ring-color=191724
-inside-color=1f1d2e
-key-hl-color=eb6f92
+line-color=000000
+ring-color=0a0b16
+inside-color=1a1b26
+key-hl-color=7aa2f7
 separator-color=00000000
-text-color=e0def4
-text-caps-lock-color=""
-line-ver-color=eb6f92
-ring-ver-color=eb6f92
-inside-ver-color=1f1d2e
-text-ver-color=e0def4
-ring-wrong-color=31748f
-text-wrong-color=31748f
-inside-wrong-color=1f1d2e
-inside-clear-color=1f1d2e
-text-clear-color=e0def4
-ring-clear-color=9ccfd8
-line-clear-color=1f1d2e
-line-wrong-color=1f1d2e
-bs-hl-color=31748f
-grace=2
+text-color=a9b1d6
+text-caps-lock-color=f7768e
+line-ver-color=000000
+ring-ver-color=bb9af7
+inside-ver-color=1a1b26
+text-ver-color=cbaaff
+ring-wrong-color=f7768e
+text-wrong-color=ff869e
+inside-wrong-color=1a1b26
+inside-clear-color=1a1b26
+text-clear-color=83fada
+ring-clear-color=73daca
+line-clear-color=000000
+line-wrong-color=000000
+bs-hl-color=e0af68
+grace=0
 grace-no-mouse
 grace-no-touch
-datestr=%a, %B %e
-timestr=%I:%M %p
+datestr=%a, %B %e, %Y
+timestr=%I:%M:%S %p
 fade-in=0.2
 ignore-empty-password
