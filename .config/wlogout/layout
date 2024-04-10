@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "swaylock",
+    "action" : "sh -c 'sleep 1; swaylock'",
     "text" : "Lock"
 }
 
