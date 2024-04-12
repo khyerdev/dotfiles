@@ -66,8 +66,6 @@ install_stage=(
     grim 
     slurp 
     thunar 
-    btop
-    firefox
     vivaldi
     mpv
     pamixer 
@@ -85,19 +83,25 @@ install_stage=(
     ttf-jetbrains-mono-nerd 
     noto-fonts-emoji 
     lxappearance 
+    qgnomeplatform-qt5
+    qgnomeplatform-qt6
     xfce4-settings
     nwg-look-bin
     sddm
     curl
     wget
     tree-sitter
+)
+
+qol_stage=(
+    fish
+    bat
     ripgrep
     fzf
     fd
     zoxide
+    thefuck
     exa
-    fish
-    bat
     setcolors-git
     mkinitcpio-colors-git
 )
@@ -276,6 +280,11 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         for SOFTWR in ${install_stage[@]}; do
             install_software $SOFTWR 
         done
+
+        echo -e "$CNT - Installing quality-of-life applications, we are almost finished..."
+        for SOFTWR in ${qol_stage[@]}; do
+            install_software $SOFTWR 
+        done
     else
         # Prep Stage - Bunch of needed items
         echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
@@ -304,6 +313,9 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         # Stage 1 - main components
         echo -e "$CNT - Installing main components, this may take a while..."
         yay -S --noconfirm ${install_stage[@]} &>> $INSTLOG
+
+        echo -e "$CNT - Installing quality-of-life applications, we are almost finished..."
+        yay -S --noconfirm ${qol_stage[@]} &>> $INSTLOG
     fi
 
     # Start the bluetooth service
