@@ -16,6 +16,8 @@ if status is-interactive
     alias vim 'nvim'
     alias get_tty 'cat /sys/devices/virtual/tty/tty0/active'
     alias tclock 'tty-clock -tscC 4'
+    alias nw 'name-workspace'
+    alias nwc 'name-workspace -clear'
     thefuck --alias | source
 
     export EDITOR=nvim
