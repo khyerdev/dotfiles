@@ -72,7 +72,7 @@
 
     "clock": {
         "format": " {:%A, %B %e %Y @ %I:%M:%S %p}",
-        "interval": 1
+        "interval": 1,
         "on-click": "kitty -o font_size=32 --start-as=fullscreen sh -c 'sleep 1; tty-clock -tscC 4'"
     },
 }
