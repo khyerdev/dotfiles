@@ -5,7 +5,8 @@ function ssh-auth
         pkill ssh-agent
     else
         if not pgrep ssh-agent &>> /dev/null
-            ssh-agent | sed 's/.*=/set \0/g' | sed 's/=/ /g' | source
+            eval "$(ssh-agent -c)"
+            sleep 0.1
             ssh-add $HOME/.ssh/$argv[1]
         else
             set SSH_AGENT_PID (pgrep ssh-agent); export SSH_AGENT_PID
