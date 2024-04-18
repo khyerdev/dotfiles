@@ -261,7 +261,10 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
             # update config
             sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
             sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
-            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            echo -e "options nvidia-drm modeset=1\noptions nvidia NVreg_PreserveVideoMemoryAllocations=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            sudo systemctl enable nvidia-suspend 2>> /dev/null
+            sudo systemctl enable nvidia-hibernate 2>> /dev/null
+            sudo systemctl enable nvidia-resume 2>> /dev/null
         fi
     
         # Install the correct hyprland version
@@ -298,7 +301,10 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
             # update config
             sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
             sudo mkinitcpio -P
-            echo -e "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            echo -e "options nvidia-drm modeset=1\noptions nvidia NVreg_PreserveVideoMemoryAllocations=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+            sudo systemctl enable nvidia-suspend 2>> /dev/null
+            sudo systemctl enable nvidia-hibernate 2>> /dev/null
+            sudo systemctl enable nvidia-resume 2>> /dev/null
         fi
     
         # Install the correct hyprland version
