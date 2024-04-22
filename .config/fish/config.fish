@@ -1,5 +1,6 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    alias pls 'sudo'
     alias cd 'z'
     alias ls 'exa -x'
     alias lsa 'exa -laahXM --smart-group --git --no-quotes --icons=always'
@@ -18,6 +19,7 @@ if status is-interactive
     alias tclock 'tty-clock -tscC 4'
     alias nw 'name-workspace'
     alias nwc 'name-workspace -clear'
+    alias viterm 'nvim +terminal'
     thefuck --alias | source
 
     export EDITOR=nvim
