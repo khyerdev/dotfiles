@@ -1,5 +1,5 @@
 format = """
-[╭─](#c0caf5)\
+[╭─](#c0caf5)[](fg:#1a1b26 bg:#c0caf5)\
 [  ](bg:#c0caf5 fg:#000000)\
 [](bg:#7aa2f7 fg:#c0caf5)\
 $directory\
@@ -13,6 +13,7 @@ $status\
 [ ](fg:#1d2230)\
 \n[╰─](fg:#c0caf5)$character"""
 
+# 
 
 [directory]
 style = "fg:#e3e5e5 bg:#769ff0"
