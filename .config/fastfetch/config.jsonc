@@ -75,7 +75,7 @@
             "format": "\u001b[30m├─────────────── \u001b[0;1;36mHardware Information\u001b[0;30m ───────────────┤" // `\u001b` is `\033`, or `\e`
         },
         {
-            "type": "board",
+            "type": "host",
             "key": "  󰌢 "
         },
         {
@@ -92,7 +92,7 @@
         },
         {
             "type": "battery",
-            "key": "    "
+            "key": "   "
         },
         {
             "type": "memory",
