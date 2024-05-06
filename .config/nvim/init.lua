@@ -546,6 +546,7 @@ require('lazy').setup({
         },
         pyright = {},
         clangd = {},
+        asm_lsp = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -865,6 +866,19 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+})
+
+-- Hyprlang LSP
+vim.api.nvim_create_autocmd({'BufEnter', 'BufWinEnter'}, {
+		pattern = {"*.hl", "hypr*.conf"},
+		callback = function(event)
+				print(string.format("starting hyprls for %s", vim.inspect(event)))
+				vim.lsp.start {
+						name = "hyprlang",
+						cmd = {"hyprls"},
+						root_dir = vim.fn.getcwd(),
+				}
+		end
 })
 
 require('live-server').setup()

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import json
-from time import sleep
 import requests
 from datetime import datetime
 
@@ -56,38 +55,17 @@ WEATHER_CODES = {
     '395': '❄️ '
 }
 
-# check for an internet connection first
-internet = False
-while not internet:
-    try:
-        if requests.get("https://google.com").status_code == 200:
-            internet = True
-    except:
-        sleep(5)
-
 data = {}
 
-success = False
-weather = {}
 
-while not success:
-    try:
-        response = requests.get("https://wttr.in/?format=j1")
-        if response.status_code == 200:
-            success = True
-        else:
-            sleep(360)
-    except:
-        success = False
-        sleep(360)
-
+weather = requests.get("https://wttr.in/?format=j1").json()
 
 
 def format_time(time):
     return time.replace("00", "").zfill(2)
 
 
-def format_temp(_):
+def format_temp(temp):
     return (hour['FeelsLikeF']+"°").ljust(3)
 
 

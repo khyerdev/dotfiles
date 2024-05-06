@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+PREVIOUS_PAUSED=null
+PREVIOUS_WAIT_COUNT=-1
+PREVIOUS_HIST_COUNT=-1
+while true; do
+	WAIT_COUNT=$(dunstctl count waiting)
+	HIST_COUNT=$(dunstctl count history)
+	PAUSED=$(dunstctl is-paused)
+
+	if [ $WAIT_COUNT != $PREVIOUS_WAIT_COUNT ] || [ $HIST_COUNT != $PREVIOUS_HIST_COUNT ] || [ $PAUSED != $PREVIOUS_PAUSED ]; then
+		if echo $PAUSED | grep -q "false"; then 
+			if [ $HIST_COUNT != 0 ]; then ENABLED= ; else ENABLED= ; fi
+
+			echo $ENABLED $HIST_COUNT
+		else
+			if [ $WAIT_COUNT != 0 ]; then DISABLED= ; else DISABLED= ; fi
+			echo $DISABLED $WAIT_COUNT
+		fi
+
+		PREVIOUS_PAUSED=$PAUSED
+		PREVIOUS_WAIT_COUNT=$WAIT_COUNT
+		PREVIOUS_HIST_COUNT=$HIST_COUNT
+	fi
+
+	sleep 0.2
+done

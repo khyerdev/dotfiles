@@ -50,12 +50,14 @@ dev_stage=(
     python-pip
     neovim
     python-neovim
+    python-requests
 )
 
 #the main packages
 install_stage=(
     kitty 
-    mako 
+    fastfetch
+    dunst
     waybar
     swww-git
     swaylock-effects 
@@ -77,7 +79,6 @@ install_stage=(
     network-manager-applet 
     gvfs 
     thunar-archive-plugin 
-    file-roller
     starship 
     papirus-icon-theme 
     ttf-jetbrains-mono-nerd 
@@ -104,11 +105,8 @@ qol_stage=(
     exa
     setcolors-git
     mkinitcpio-colors-git
+    tcobalt
 )
-
-for str in ${myArray[@]}; do
-  echo $str
-done
 
 # set some colors
 CNT="[\e[1;36mNOTE\e[0m]"

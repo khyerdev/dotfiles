@@ -1,92 +1,230 @@
-{
-    "layer": "top",
-    "position": "top",
-    "mod": "dock",
-    "exclusive": true,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "height": 12,
-    "modules-left": [
-        "bluetooth",
-        "pulseaudio"
-    ],
-    "modules-center": ["clock"],
-    "modules-right": [
-        "battery",
-        "cpu",
-        "memory",
-        "disk"
-    ],
+[ // REMEMBBER scmooth-scrolling-threshold
+    {
+        "layer": "top",
+        "position": "top",
+        "mod": "dock",
+        "exclusive": true,
+        "passthrough": false,
+        "gtk-layer-shell": true,
+        "fixed-center": true,
+        "height": 12,
+        "modules-left": [
+            "pulseaudio#microphone",
+            "pulseaudio",
+            "custom/media"
+        ],
+        "modules-center": ["clock"],
+        "modules-right": [
+            "battery",
+            "network",
+            "temperature",
+            "cpu",
+            "memory",
+            "disk"
+        ],
 
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "tooltip": false,
-        "format-muted": " Muted",
-        "on-click": "~/.config/waybar/scripts/volume --toggle",
-        "on-click-right": "pavucontrol",
-        "on-scroll-up": "~/.config/waybar/scripts/volume --inc",
-        "on-scroll-down": "~/.config/waybar/scripts/volume --dec",
-        "scroll-step": 5,
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
+        "pulseaudio": {
+            "format": "{icon} {volume}%",
+            "tooltip": false,
+            "format-muted": " Muted",
+            "on-click": "~/.config/waybar/scripts/volume --toggle",
+            "on-click-right": "pavucontrol",
+            "on-scroll-up": "~/.config/waybar/scripts/volume --inc",
+            "on-scroll-down": "~/.config/waybar/scripts/volume --dec",
+            "scroll-step": 5,
+            "format-icons": {
+                "headphone": "",
+                "hands-free": "",
+                "headset": "",
+                "phone": "",
+                "portable": "",
+                "car": "",
+                "default": ["", "", ""]
+            }
+        },
+
+        "pulseaudio#microphone": {
+            "format": "{format_source}",
+            "format-source": " {volume}%",
+            "format-source-muted": "  Muted",
+            "on-click": "~/.config/waybar/scripts/volume --toggle-mic",
+            "on-click-right": "pavucontrol",
+            "on-scroll-up": "~/.config/waybar/scripts/volume --mic-inc",
+            "on-scroll-down": "~/.config/waybar/scripts/volume --mic-dec",
+            "scroll-step": 5,
+            "tooltip": false,
+        },
+
+        "custom/media": {
+            "format": "{}",
+            "escape": true,
+            "return-type": "json",
+            "on-click": "playerctl -p spotify play-pause",
+            "on-scroll-up" : "playerctl -p spotify next",
+            "on-scroll-down" : "playerctl -p spotify previous",
+            "exec": "~/.config/waybar/scripts/mediaplayer.py --player spotify 2> /dev/null" // Script in resources/custom_modules folder
+        },
+
+        "network": {
+            "format": "{bandwidthTotalBytes}",
+            "format-wifi": " {signalStrength}% {bandwidthTotalBytes}",
+            "format-ethernet": "󰈀 {bandwidthTotalBytes}",
+            "format-disconnected": "No Network", //An empty format will hide the module.
+            "tooltip-format": "{ipaddr}",
+            "tooltip-format-wifi": "{ipaddr}",
+            "tooltip-format-ethernet": "{ipaddr}",
+            "tooltip-format-disconnected": "",
+            "interval": 1
+        },
+
+        "cpu": {
+            "interval": 1,
+            "format": " {usage}%",
+            "max-length": 10,
+            "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+        },
+
+        "temperature": {
+            "thermal-zone": 2,
+            "format": " {temperatureC}°C",
+            "critical-threshold": 80,
+            "format-critical": "!  {temperatureC}°C !",
+            "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'",
+            "interval": 1
+        },
+
+        "disk": {
+            "interval": 2,
+            "format": "󰋊 {percentage_used}%",
+            "path": "/",
+            "tooltip": true,
+            "tooltip-format": "HDD - {used} used out of {total} on {path} ({percentage_used}%)",
+            "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+        },
+
+        "memory": {
+            "interval": 1,
+            "format": " {}%",
+            "max-length": 10,
+            "tooltip": true,
+            "tooltip-format": "Memory - {used:0.1f}GB used",
+            "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+        },
+
+        "clock": {
+            "format": " {:%A, %B %e %Y @ %I:%M:%S %p}",
+            "interval": 1,
+            "on-click": "kitty -o font_size=32 --start-as=fullscreen sh -c 'sleep 1; tty-clock -tscC 4'"
+        },
+
+        "battery": {
+            "states": {
+                "good": 95,
+                "warning": 30,
+                "critical": 20
+            },
+            "format": "{icon} {capacity}%",
+            "format-charging": " {capacity}%",
+            "format-plugged": " {capacity}%",
+            "format-alt": "{time} {icon}",
+            "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        },
+
+        "bluetooth": {
+            "format": " {status}",
+            "format-disabled": "", // an empty format will hide the module
+            "format-connected": " {num_connections}",
+            "tooltip-format": "{device_alias}",
+            "tooltip-format-connected": " {device_enumerate}",
+            "tooltip-format-enumerate-connected": "{device_alias}"
+        },
+        "cpu": {
+            "interval": 1,
+            "format": " {usage}%",
+            "max-length": 10,
+            "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
         }
     },
+    {
+        "layer": "top",
+        "position": "bottom",
+        "mod": "dock",
+        "exclusive": true,
+        "passthrough": false,
+        "gtk-layer-shell": true,
+        "fixed-center": true,
+        "height": 12,
+        "modules-left": [
+            "custom/archbtw",
+            "user",
+            "hyprland/window"
+        ],
+        "modules-center": ["hyprland/workspaces"],
+        "modules-right": [
+            "custom/weather",
+            "tray",
+            "idle_inhibitor",
+            "custom/dunst"
+        ],
 
-   "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
+        "hyprland/window": {
+            "format": "{}",
+            "rewrite": {
+                "(.*) - Vivaldi": "Vivaldi: $1",
+                "": "Empty"
+            },
+            "separate-outputs": true
         },
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
 
-    "bluetooth": {
-        "format": " {status}",
-        "format-disabled": "", // an empty format will hide the module
-        "format-connected": " {num_connections}",
-        "tooltip-format": "{device_alias}",
-        "tooltip-format-connected": " {device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}"
-    },
-    "cpu": {
-        "interval": 1,
-        "format": " {usage}%",
-        "max-length": 10,
-        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
-    },
+        "hyprland/workspaces": {
+            "disable-scroll": true,
+            "all-outputs": false,
+            "on-click": "activate",
+        },
 
-    "disk": {
-        "interval": 2,
-        "format": "󰋊 {percentage_used}%",
-        "path": "/",
-        "tooltip": true,
-        "tooltip-format": "HDD - {used} used out of {total} on {path} ({percentage_used}%)",
-        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
-    },
+        "tray": {
+            "icon-size": 12,
+            "spacing": 10
+        },
 
-    "memory": {
-        "interval": 1,
-        "format": " {}%",
-        "max-length": 10,
-        "tooltip": true,
-        "tooltip-format": "Memory - {used:0.1f}GB used",
-        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
-    },
+        "custom/dunst": {
+            "exec": "~/.config/waybar/scripts/dunst",
+            "on-click": "dunstctl set-paused toggle",
+            "on-click-middle": "dunstctl history-clear",
+            "on-click-right": "bash -c 'for ((i=0;i<100;i++)); do dunstctl history-pop; done'",
+            "tooltip": false,
+            "format": "{}"
+        },
 
-    "clock": {
-        "format": " {:%A, %B %e %Y @ %I:%M:%S %p}",
-        "interval": 1,
-        "on-click": "kitty -o font_size=32 --start-as=fullscreen sh -c 'sleep 1; tty-clock -tscC 4'"
-    },
-}
+        "user": {
+            "icon": true,
+            "format": " {user}",
+            "width": 16,
+            "height": 16
+        },
+
+        "custom/archbtw": {
+            "format": "{}",
+            "exec": "~/.config/waybar/scripts/random json",
+            "return-type": "json",
+            "tooltip": true,
+            "on-click": "~/.config/waybar/scripts/random > /tmp/motivational-quote; kitty --start-as=fullscreen --title \"Motivational Quote\" sh -c 'nvim /tmp/motivational-quote'; rm /tmp/motivational-quote"
+        },
+        "custom/weather": {
+            "tooltip" : true,
+            "format" : "{}F",
+            "interval" : 1800,
+            "exec" : "~/.config/waybar/scripts/weather.py",
+            "return-type" : "json"
+        },
+
+        "idle_inhibitor": {
+            "format": "{icon}",
+            "format-icons": {
+                "activated": "󰛐 ",
+                "deactivated": "󰛑 "
+            },
+            "tooltip": true
+        },
+    }
+]
