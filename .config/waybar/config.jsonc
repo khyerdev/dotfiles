@@ -1,4 +1,4 @@
-[ 
+[
     {
         "layer": "top",
         "position": "top",
@@ -70,7 +70,7 @@
 
         "network": {
             "format": "{bandwidthTotalBytes}",
-            "format-wifi": " {signalStrength}% {bandwidthTotalBytes}",
+            "format-wifi": "  {signalStrength}% {bandwidthTotalBytes}",
             "format-ethernet": "󰈀 {bandwidthTotalBytes}",
             "format-disconnected": "No Network", //An empty format will hide the module.
             "tooltip-format": "{ipaddr}",
