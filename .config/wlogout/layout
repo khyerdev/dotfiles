@@ -1,7 +1,19 @@
 {
-    "label" : "lock",
-    "action" : "sh -c 'sleep 1; swaylock'",
-    "text" : "Lock"
+    "label" : "shutdown",
+    "action" : "systemctl poweroff",
+    "text" : "Shutdown"
+}
+
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot",
+    "text" : "Reboot"
+}
+
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "Suspend"
 }
 
 {
@@ -17,19 +29,7 @@
 }
 
 {
-    "label" : "shutdown",
-    "action" : "systemctl poweroff",
-    "text" : "Shutdown"
-}
-
-{
-    "label" : "suspend",
-    "action" : "systemctl suspend",
-    "text" : "Suspend"
-}
-
-{
-    "label" : "reboot",
-    "action" : "systemctl reboot",
-    "text" : "Reboot"
+    "label" : "lock",
+    "action" : "sh -c 'sleep 1; swaylock'",
+    "text" : "Lock"
 }
