@@ -14,7 +14,7 @@ window#waybar {
 
 tooltip {
     background: #1e1e2e;
-    border-radius: 5px;
+    border-radius: 4px;
     border-width: 2px;
     border-style: solid;
     border-color: #11111b;
@@ -29,63 +29,68 @@ tooltip {
 
 #workspaces button.active {
     color: #a6adc8;
-    border-top: 2px solid #cbc0ff;
-    padding: 0px 10px 0px 10px;
+    background: #1e273c;
+    border-top: 1.5px solid #7aa2f7;
 }
 
 #workspaces button.focused {
     color: #a6adc8;
     background: #eba0ac;
-    border-radius: 5px;
+    border-top: 1.5px solid #11111f;
 }
 
 #workspaces button.urgent {
-    color: #11111b;
-    background: #a6e3a1;
-    border-radius: 5px;
+    color: #111111;
+    background: #76b371;
+    border-top: 1.5px solid #e6ffe1;
 }
 
 #workspaces button:hover {
     background: #11111b;
     color: #cdd6f4;
-    border-radius: 5px;
+    border-top: 1.5px solid #ffffff;
 }
 
 #window,
 #clock,
 #pulseaudio,
-#bluetooth,
+#pulseaudio.microphone,
 #temperature,
 #workspaces,
 #tray,
 #user,
 #custom-archbtw,
+#idle_inhibitor,
 #cpu,
 #memory,
+#custom-media,
+#custom-weather,
+#custom-dunst,
+#privacy,
+#network,
 #disk {
     background: #1e1e2e;
-    opacity: 0.8;
-    padding: 0px 5px;
+    padding: 0px 4px;
     margin: 3px 0px;
     border: 1px solid #181825;
 }
 
 /* close to left */
-#bluetooth, #cpu, #custom-archbtw {
-    border-radius: 5px 0px 0px 5px;
+#pulseaudio.microphone, #cpu, #custom-archbtw, #idle_inhibitor, #network {
+    border-radius: 4px 0px 0px 4px;
 }
 
 /*close to the right */
-#pulseaudio, #disk, #user {
-    border-radius: 0px 5px 5px 0px;
-    margin-right: 5px;
+#pulseaudio, #disk, #user, #custom-dunst, #temperature {
+    border-radius: 0px 4px 4px 0px;
+    margin-right: 4px;
 }
 
 /*close on both sides*/
-#tray, #clock, #workspaces {
-    border-radius: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
+#clock, #workspaces, #custom-media, #custom-weather, #tray, #window {
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-left: 4px;
 }
 
 #disk {
@@ -93,8 +98,15 @@ tooltip {
 }
 
 #window {
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-right: 0px;
+    color: #cbc0ff;
+}
+
+#temperature {
+    color: #89b4fa;
+}
+#temperature.critical {
+    color: #f7768e;
 }
 
 #clock {
@@ -102,8 +114,8 @@ tooltip {
     border-right: 0px;
 }
 
-#bluetooth {
-    margin-left: 5px;
+#pulseaudio.microphone {
+    margin-left: 4px;
     color: #89b4fa;
 }
 
@@ -111,7 +123,7 @@ tooltip {
     color: #cba6f7;
     border-left: 0px;
     border-right: 0px;
-    margin-right: 5px;
+    margin-right: 4px;
 }
 
 #memory {
@@ -124,9 +136,45 @@ tooltip {
 
 #custom-archbtw {
     color: #89f6ff;
-    margin-left: 5px;
+    margin-left: 4px;
 }
 
 #user {
     color: #89b4fa;
+    margin-right: 0px;
+}
+
+#custom-previous {
+    border-right-width: 0px;
+}
+#custom-playpause {
+    border-left-width: 0px;
+    border-right-width: 0px;
+    color: #bdefff;
+}
+#custom-next {
+    border-left-width: 0px;
+    margin-right: 0px;
+}
+
+#custom-media {
+    color: #e0ffe0;
+}
+
+#custom-weather {
+    color: #cbc0ff;
+    margin-right: 0px;
+}
+
+#custom-dunst {
+    color: #89b4fa;
+}
+
+#workspaces {
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#network {
+    color: #cba6f7;
 }
