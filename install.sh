@@ -50,7 +50,6 @@ dev_stage=(
     python-pip
     neovim
     python-neovim
-    python-requests
 )
 
 #the main packages
