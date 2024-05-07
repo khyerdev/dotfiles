@@ -1,6 +1,7 @@
 * {
     background-image: none;
     box-shadow: none;
+    border-radius: 0px;
 }
 
 window {
@@ -8,12 +9,11 @@ window {
 }
 
 button {
-    border-radius: 10px;
-    border-color: rgba(0, 0, 17, 0.85);
+    border-color: rgba(0, 0, 17, 1);
     margin: 10px;
     text-decoration-color: #FFFFFF;
     color: #FFFFFF;
-    background-color: rgba(26, 27, 38, 0.7);
+    background-color: rgba(26, 27, 38, 1);
     border-style: solid;
     border-width: 2px;
     background-repeat: no-repeat;
@@ -22,7 +22,7 @@ button {
 }
 
 button:focus, button:active, button:hover {
-    background-color: rgba(40, 52, 74, 0.8);
+    background-color: rgba(40, 52, 74, 1);
     border: 2px solid #cdd6f4;
     outline-style: none;
 }
