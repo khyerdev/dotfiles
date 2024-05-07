@@ -16,4 +16,4 @@ background = "#1a1b26"
 foreground = "#a9b1d6"
 frame_color = "#414868"
 markup = full
-width = (0, 300)
+width = (0, 600)
