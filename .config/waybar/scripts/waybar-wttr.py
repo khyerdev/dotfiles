@@ -75,6 +75,7 @@ while not success:
         response = requests.get("https://wttr.in/?format=j1")
         if response.status_code == 200:
             success = True
+            weather = response.json()
         else:
             sleep(360)
     except:
