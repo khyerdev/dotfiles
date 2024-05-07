@@ -9,18 +9,24 @@
         "fixed-center": true,
         "height": 12,
         "modules-left": [
-            "pulseaudio#microphone",
-            "pulseaudio",
+            "custom/archbtw",
+            "user",
+            "hyprland/workspaces",
+            "hyprland/window",
             "custom/media"
         ],
-        "modules-center": ["clock"],
+        "modules-center": ["idle_inhibitor", "clock", "custom/dunst"],
         "modules-right": [
-            "battery",
+            "custom/weather",
+            "pulseaudio",
+            "pulseaudio#microphone",
             "network",
             "temperature",
+            "battery",
             "cpu",
             "memory",
-            "disk"
+            "disk",
+            "tray"
         ],
 
         "pulseaudio": {
@@ -70,7 +76,7 @@
 
         "network": {
             "format": "{bandwidthTotalBytes}",
-            "format-wifi": "  {signalStrength}% {bandwidthTotalBytes}",
+            "format-wifi": "  {bandwidthTotalBytes}",
             "format-ethernet": "󰈀 {bandwidthTotalBytes}",
             "format-disconnected": "No Network", //An empty format will hide the module.
             "tooltip-format": "{ipaddr}",
@@ -146,29 +152,7 @@
             "format": " {usage}%",
             "max-length": 10,
             "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
-        }
-    },
-    {
-        "layer": "top",
-        "position": "bottom",
-        "mod": "dock",
-        "exclusive": true,
-        "passthrough": false,
-        "gtk-layer-shell": true,
-        "fixed-center": true,
-        "height": 12,
-        "modules-left": [
-            "custom/archbtw",
-            "user",
-            "hyprland/window"
-        ],
-        "modules-center": ["hyprland/workspaces"],
-        "modules-right": [
-            "custom/weather",
-            "tray",
-            "idle_inhibitor",
-            "custom/dunst"
-        ],
+        },
 
         "hyprland/window": {
             "format": "{}",

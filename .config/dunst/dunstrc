@@ -1,12 +1,12 @@
 [global]
 monitor = follow
 follow = mouse
-origin = bottom-right
+origin = top-center
 offset = 10x10
 gap_size = 10
 font = JetBrainsMono Nerd Font 10
 icon_theme = Papirus-Dark
-corner_radius = 5
+corner_radius = 0
 frame_width = 2
 dmenu = /usr/bin/wofi -d
 mouse_left_click = do_action, close_current
