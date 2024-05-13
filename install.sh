@@ -293,7 +293,12 @@ echo -e "$CNT - Cleaning out conflicting xdg portals..."
 paru -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
 
 echo -e "$CNT - Copying theme files..."
+chown -R $USER:$USER .
+tar -xzf ./.themes/juno.tar.gz -C ./.themes
+rm ./.themes/juno.tar.gz
 sudo cp -r ./.themes/* /usr/share/themes/
+tar -xzf ./.icons/breeze_cursors.tar.gz -C ./.icons
+rm ./.icons/breeze_cursors.tar.gz
 sudo cp -r ./.icons/* /usr/share/icons/
 
 echo -en "$CNT - Now installing the needed fonts ."
@@ -303,7 +308,8 @@ echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
 ### Copy Config Files ###
 echo -e "$CNT - Copying config files..."
 
-chown -R $USER:$USER .
+tar -xzf ./.config/hypr/backgrounds.tar.gz -C ./.config/hypr
+rm ./.config/hypr/backgrounds.tar.gz
 cp -rf ./.config $HOME/
 chmod +x ./.scripts/*
 sudo cp -f ./.scripts/* /usr/bin
@@ -314,6 +320,7 @@ sudo ln -s /usr/bin/kitty /usr/bin/xdg-terminal-exec
 
     # Copy the SDDM theme
 echo -e "$CNT - Setting up the login screen."
+tar -xzf ./.sddm-theme/sdt.tar.gz -C ./.sddm-theme
 sudo cp -R .sddm-theme/sdt /usr/share/sddm/themes/
 sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
 sudo mkdir /etc/sddm.conf.d
