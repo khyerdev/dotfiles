@@ -133,15 +133,15 @@ show_progress() {
 # function that will test for a package and if not found it will attempt to install it
 install_software() {
     # First lets see if the package is there
-    if yay -Q $1 &>> /dev/null ; then
+    if paru -Q $1 &>> /dev/null ; then
         echo -e "$COK - $1 is already installed."
     else
         # no package found so installing
         echo -en "$CNT - Now installing $1 ."
-        yay -S --noconfirm $1 &>> $INSTLOG &
+        paru -S --noconfirm $1 &>> $INSTLOG &
         show_progress $!
         # test to make sure package installed
-        if yay -Q $1 &>> /dev/null ; then
+        if paru -Q $1 &>> /dev/null ; then
             echo -e "\e[1A\e[K$COK - $1 was installed."
         else
             # if this is hit then a package is missing, exit to review log
@@ -213,185 +213,144 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
 fi
 
 #### Check for package manager ####
-if [ ! -f /sbin/yay ]; then  
-    echo -en "$CNT - Configuering yay."
-    git clone https://aur.archlinux.org/yay.git &>> $INSTLOG
-    cd yay
+if [ ! -f /sbin/paru ]; then  
+    echo -en "$CNT - Configuering paru."
+    git clone https://aur.archlinux.org/paru.git &>> $INSTLOG
+    cd paru
     makepkg -si --noconfirm &>> ../$INSTLOG &
     show_progress $!
-    if [ -f /sbin/yay ]; then
-        echo -e "\e[1A\e[K$COK - yay configured"
+    if [ -f /sbin/paru ]; then
+        echo -e "\e[1A\e[K$COK - paru configured"
         cd ..
         
-        # update the yay database
-        echo -en "$CNT - Updating yay."
-        yay -Suy --noconfirm &>> $INSTLOG &
+        # update the paru database
+        echo -en "$CNT - Updating paru."
+        paru -Suy --noconfirm &>> $INSTLOG &
         show_progress $!
-        echo -e "\e[1A\e[K$COK - yay updated."
+        echo -e "\e[1A\e[K$COK - paru updated."
     else
         # if this is hit then a package is missing, exit to review log
-        echo -e "\e[1A\e[K$CER - yay install failed, please check the install.log"
+        echo -e "\e[1A\e[K$CER - paru install failed, please check the install.log"
         exit
     fi
 fi
 
 ### Install all of the above pacakges ####
-read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
-if [[ $INST == "Y" || $INST == "y" ]]; then
+# Prep Stage - Bunch of needed items
+echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
+for SOFTWR in ${prep_stage[@]}; do
+    install_software $SOFTWR 
+done
 
-    read -rep $'[\e[1;33mACTION\e[0m] - Do you want a quiet (fast) install or a verbose (slow) insall? (Q,v) ' VERB
+# Setup Nvidia if it was found
+if [[ "$ISNVIDIA" == true ]]; then
+    echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
+    for SOFTWR in ${nvidia_stage[@]}; do
+        install_software $SOFTWR
+    done
 
-    if [[ $VERB == "V" || $VERB == "v" ]]; then
-        # Prep Stage - Bunch of needed items
-        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
-        for SOFTWR in ${prep_stage[@]}; do
-            install_software $SOFTWR 
-        done
-
-        # Setup Nvidia if it was found
-        if [[ "$ISNVIDIA" == true ]]; then
-            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
-            for SOFTWR in ${nvidia_stage[@]}; do
-                install_software $SOFTWR
-            done
-    
-            # update config
-            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-            sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
-            echo -e "options nvidia-drm modeset=1\noptions nvidia NVreg_PreserveVideoMemoryAllocations=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
-            sudo systemctl enable nvidia-suspend 2>> /dev/null
-            sudo systemctl enable nvidia-hibernate 2>> /dev/null
-            sudo systemctl enable nvidia-resume 2>> /dev/null
-        fi
-    
-        # Install the correct hyprland version
-        echo -e "$CNT - Installing Hyprland, this may take a while..."   
-        install_software hyprland-git
-    
-        echo -e "$CNT - Installing software development tools..."   
-        for SOFTWR in ${dev_stage[@]}; do
-            install_software $SOFTWR 
-        done
-        echo -e "$CNT - Setting up the default rust toolchain..."   
-        rustup default stable &>> $INSTLOG
-    
-        # Stage 1 - main components
-        echo -e "$CNT - Installing main components, this may take a while..."
-        for SOFTWR in ${install_stage[@]}; do
-            install_software $SOFTWR 
-        done
-
-        echo -e "$CNT - Installing quality-of-life applications, we are almost finished..."
-        for SOFTWR in ${qol_stage[@]}; do
-            install_software $SOFTWR 
-        done
-    else
-        # Prep Stage - Bunch of needed items
-        echo -e "$CNT - Prep Stage - Installing needed components, this may take a while..."
-        yay -S --noconfirm ${prep_stage[@]} &>> $INSTLOG
-        #
-        # Setup Nvidia if it was found
-        if [[ "$ISNVIDIA" == true ]]; then
-            echo -e "$CNT - Nvidia GPU support setup stage, this may take a while..."
-            yay -S --noconfirm ${nvidia_stage[@]} &>> $INSTLOG
-    
-            # update config
-            sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-            sudo mkinitcpio -P
-            echo -e "options nvidia-drm modeset=1\noptions nvidia NVreg_PreserveVideoMemoryAllocations=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
-            sudo systemctl enable nvidia-suspend 2>> /dev/null
-            sudo systemctl enable nvidia-hibernate 2>> /dev/null
-            sudo systemctl enable nvidia-resume 2>> /dev/null
-        fi
-    
-        # Install the correct hyprland version
-        echo -e "$CNT - Installing Hyprland, this may take a while..."   
-        yay -S --noconfirm hyprland &>> $INSTLOG
-    
-        echo -e "$CNT - Installing software development tools..."   
-        yay -S --noconfirm ${dev_stage[@]} &>> $INSTLOG
-        echo -e "$CNT - Setting up the default rust toolchain..."   
-        rustup default stable &>> $INSTLOG
-    
-        # Stage 1 - main components
-        echo -e "$CNT - Installing main components, this may take a while..."
-        yay -S --noconfirm ${install_stage[@]} &>> $INSTLOG
-
-        echo -e "$CNT - Installing quality-of-life applications, we are almost finished..."
-        yay -S --noconfirm ${qol_stage[@]} &>> $INSTLOG
-    fi
-
-    # Start the bluetooth service
-    echo -e "$CNT - Starting the Bluetooth Service..."
-    sudo systemctl enable --now bluetooth.service &>> $INSTLOG
-
-    # Enable the sddm login manager service
-    echo -e "$CNT - Enabling the SDDM Service..."
-    sudo systemctl enable sddm &>> $INSTLOG
-    
-    # Clean out other portals
-    echo -e "$CNT - Cleaning out conflicting xdg portals..."
-    yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
-    
-    echo -e "$CNT - Copying theme files..."
-    sudo cp -r ./.themes/* /usr/share/themes/
-    sudo cp -r ./.icons/* /usr/share/icons/
+    # update config
+    sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+    sudo mkinitcpio --config /etc/mkinitcpio.conf --generate /boot/initramfs-custom.img
+    echo -e "options nvidia-drm modeset=1\noptions nvidia NVreg_PreserveVideoMemoryAllocations=1" | sudo tee -a /etc/modprobe.d/nvidia.conf &>> $INSTLOG
+    sudo systemctl enable nvidia-suspend 2>> /dev/null
+    sudo systemctl enable nvidia-hibernate 2>> /dev/null
+    sudo systemctl enable nvidia-resume 2>> /dev/null
 fi
 
-read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install fonts to support more unicodes? (y,n) ' INST
-if [[ $INST == "Y" || $INST == "y" ]]; then
-    echo -en "$CNT - Now installing the needed fonts ."
-    yay -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG
-    echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
-fi
+# Install the correct hyprland version
+echo -e "$CNT - Installing Hyprland, this may take a while..."   
+install_software hyprland-git
+
+echo -e "$CNT - Installing software development tools..."   
+for SOFTWR in ${dev_stage[@]}; do
+    install_software $SOFTWR 
+done
+echo -e "$CNT - Setting up the default rust toolchain..."   
+rustup default stable &>> $INSTLOG
+
+# Stage 1 - main components
+echo -e "$CNT - Installing main components, this may take a while..."
+for SOFTWR in ${install_stage[@]}; do
+    install_software $SOFTWR 
+done
+
+echo -e "$CNT - Installing quality-of-life applications, we are almost finished..."
+for SOFTWR in ${qol_stage[@]}; do
+    install_software $SOFTWR 
+done
+
+# Start the bluetooth service
+echo -e "$CNT - Starting the Bluetooth Service..."
+sudo systemctl enable --now bluetooth.service &>> $INSTLOG
+
+# Enable the sddm login manager service
+echo -e "$CNT - Enabling the SDDM Service..."
+sudo systemctl enable sddm &>> $INSTLOG
+
+# Clean out other portals
+echo -e "$CNT - Cleaning out conflicting xdg portals..."
+paru -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
+
+echo -e "$CNT - Copying theme files..."
+chown -R $USER:$USER .
+tar -xzf ./.themes/juno.tar.gz -C ./.themes
+rm ./.themes/juno.tar.gz
+sudo cp -r ./.themes/* /usr/share/themes/
+tar -xzf ./.icons/breeze_cursors.tar.gz -C ./.icons
+rm ./.icons/breeze_cursors.tar.gz
+sudo cp -r ./.icons/* /usr/share/icons/
+
+echo -en "$CNT - Now installing the needed fonts ."
+paru -S --noconfirm ttf-bitstream-vera ttf-croscore ttf-dejavu ttf-droid gnu-free-fonts ttf-ibm-plex ttf-liberation noto-fonts ttf-roboto ttf-ubuntu-font-family ttf-ms-fonts ttf-vista-fonts &>> $INSTLOG
+echo -e "\e[1A\e[K$COK - The needed fonts have been installed!"
 
 ### Copy Config Files ###
-read -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
-if [[ $CFG == "Y" || $CFG == "y" ]]; then
-    echo -e "$CNT - Copying config files..."
+echo -e "$CNT - Copying config files..."
 
-    chown -R $USER:$USER .
-    cp -rf ./.config $HOME/
-    chmod +x ./.scripts/*
-    sudo cp -f ./.scripts/* /usr/bin
-    cp -f ./.bashrc ../
-    bat cache --build &>> $INSTLOG
+tar -xzf ./.config/hypr/backgrounds.tar.gz -C ./.config/hypr
+rm ./.config/hypr/backgrounds.tar.gz
+cp -rf ./.config $HOME/
+chmod +x ./.scripts/*
+sudo cp -f ./.scripts/* /usr/bin
+cp -f ./.bashrc ../
+bat cache --build &>> $INSTLOG
 
-    sudo ln -s /usr/bin/kitty /usr/bin/xdg-terminal-exec
+sudo ln -s /usr/bin/kitty /usr/bin/xdg-terminal-exec
 
     # Copy the SDDM theme
-    echo -e "$CNT - Setting up the login screen."
-    sudo cp -R .sddm-theme/sdt /usr/share/sddm/themes/
-    sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
-    sudo mkdir /etc/sddm.conf.d
-    echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
-    WLDIR=/usr/share/wayland-sessions
-    if [ -d "$WLDIR" ]; then
-        echo -e "$COK - $WLDIR found"
-    else
-        echo -e "$CWR - $WLDIR NOT found, creating..."
-        sudo mkdir $WLDIR
-    fi 
-    
-    # stage the .desktop file
-    sudo cp hyprland.desktop /usr/share/wayland-sessions/
+echo -e "$CNT - Setting up the login screen."
+tar -xzf ./.sddm-theme/sdt.tar.gz -C ./.sddm-theme
+sudo cp -R .sddm-theme/sdt /usr/share/sddm/themes/
+sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
+sudo mkdir /etc/sddm.conf.d
+echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
+WLDIR=/usr/share/wayland-sessions
+if [ -d "$WLDIR" ]; then
+echo -e "$COK - $WLDIR found"
+else
+echo -e "$CWR - $WLDIR NOT found, creating..."
+sudo mkdir $WLDIR
+fi 
 
-    echo -e "$CNT - Setting themes..."
+# stage the .desktop file
+sudo cp hyprland.desktop /usr/share/wayland-sessions/
 
-    # setup the first look and feel as dark
-    xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
-    xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
+echo -e "$CNT - Setting themes..."
 
-    xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
-    gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
+# setup the first look and feel as dark
+xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
+xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
 
-    gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
-    gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
+xfconf-query -c xsettings -p /Net/ThemeName -s "Juno-ocean"
+gsettings set org.gnome.desktop.interface gtk-theme "Juno-ocean"
 
-    gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
+gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11'
+gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 10'
 
-    sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
-fi
+gsettings set org.gnome.desktop.interface cursor-theme 'breeze_cursors'
+
+sudo cp -f ~/.config/hypr/backgrounds/northernlights_mountains.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 
 ### Script is done ###
 echo -e "$CNT - Script had completed!"
