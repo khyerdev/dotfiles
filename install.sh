@@ -260,7 +260,7 @@ fi
 
 # Install the correct hyprland version
 echo -e "$CNT - Installing Hyprland, this may take a while..."   
-install_software hyprland-git
+install_software hyprland
 
 echo -e "$CNT - Installing software development tools..."   
 for SOFTWR in ${dev_stage[@]}; do
