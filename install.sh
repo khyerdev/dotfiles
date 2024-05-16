@@ -41,7 +41,7 @@ nvidia_stage=(
 )
 
 dev_stage=(
-    rustup
+    rust
     rust-src
     gcc
     nodejs
