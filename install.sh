@@ -33,11 +33,10 @@ prep_stage=(
 
 #software for nvidia GPU only
 nvidia_stage=(
-    linux-headers 
-    nvidia-dkms 
-    nvidia-settings 
+    nvidia-beta-dkms
+    nvidia-settings-beta
     libva 
-    libva-nvidia-driver-git
+    libva-nvidia-driver
 )
 
 dev_stage=(
@@ -256,6 +255,8 @@ if [[ "$ISNVIDIA" == true ]]; then
     sudo systemctl enable nvidia-suspend 2>> /dev/null
     sudo systemctl enable nvidia-hibernate 2>> /dev/null
     sudo systemctl enable nvidia-resume 2>> /dev/null
+else
+    sed -i 's#source = ~/.config/hypr/env_var_nvidia.conf##' ./.config/hypr/hyprland.conf
 fi
 
 # Install the correct hyprland version
