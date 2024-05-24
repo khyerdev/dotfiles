@@ -1,4 +1,4 @@
-- 1.1.12
+- 1.1.13
 - _NAME: G502 Gaming Mouse
   _absent: [hi-res-scroll, lowres-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert, thumb-scroll-mode, report_rate_extended, pointer_speed,
     dpi_extended, speed-change, backlight, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed,
@@ -7,7 +7,7 @@
     equalizer, adc_power_management]
   _battery: 4097
   _modelId: 407FC08D0000
-  _sensitive: {dpi: false, led_control: false, led_zone_1: false, led_zone_2: false, onboard_profiles: false}
+  _sensitive: {dpi: false, hires-smooth-resolution: ignore, led_control: false, led_zone_1: false, led_zone_2: false, onboard_profiles: false}
   _serial: 178C1ACD
   _unitId: 178C1ACD
   _wpid: 407F

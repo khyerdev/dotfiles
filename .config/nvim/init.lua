@@ -830,7 +830,9 @@ require('lazy').setup({
     'barrett-ruth/live-server.nvim',
     build = 'pnpm add -g live-server',
     cmd = { 'LiveServerStart', 'LiveServerStop' },
-    config = true,
+    config = function()
+      require('live-server').setup()
+    end,
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -869,21 +871,6 @@ require('lazy').setup({
     },
   },
 })
-
--- Hyprlang LSP
-vim.api.nvim_create_autocmd({'BufEnter', 'BufWinEnter'}, {
-		pattern = {"*.hl", "hypr*.conf"},
-		callback = function(event)
-				print(string.format("starting hyprls for %s", vim.inspect(event)))
-				vim.lsp.start {
-						name = "hyprlang",
-						cmd = {"hyprls"},
-						root_dir = vim.fn.getcwd(),
-				}
-		end
-})
-
-require('live-server').setup()
 
 -- im too lazy to port this to actual lua based remapping
 vim.cmd("nnoremap <A-j> :m .+1<CR>==")
