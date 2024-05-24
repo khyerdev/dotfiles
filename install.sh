@@ -37,6 +37,7 @@ nvidia_stage=(
     nvidia-settings-beta
     libva 
     libva-nvidia-driver
+    libva-mesa-driver
 )
 
 dev_stage=(
@@ -67,6 +68,7 @@ install_stage=(
     slurp 
     thunar 
     vivaldi
+    vivaldi-ffmpeg-codecs
     mpv
     pamixer 
     pavucontrol 
