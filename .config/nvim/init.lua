@@ -830,7 +830,9 @@ require('lazy').setup({
     'barrett-ruth/live-server.nvim',
     build = 'pnpm add -g live-server',
     cmd = { 'LiveServerStart', 'LiveServerStop' },
-    config = true,
+    config = function()
+      require('live-server').setup()
+    end,
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -869,8 +871,6 @@ require('lazy').setup({
     },
   },
 })
-
-require('live-server').setup()
 
 -- im too lazy to port this to actual lua based remapping
 vim.cmd("nnoremap <A-j> :m .+1<CR>==")
