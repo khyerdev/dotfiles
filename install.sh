@@ -55,6 +55,7 @@ dev_stage=(
 #the main packages
 install_stage=(
     kitty 
+    zellij
     fastfetch
     dunst
     waybar
