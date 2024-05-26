@@ -31,6 +31,4 @@ if status is-interactive
 
     # pnpm
     export PNPM_HOME="/home/khyernet/.local/share/pnpm"
-
-    zellij_tab_name_update
 end
