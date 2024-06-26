@@ -31,7 +31,7 @@
   _serial: 8728F9DF
   _unitId: 8728F9DF
   _wpid: 407C
-  brightness_control: 50
+  brightness_control: 25
   change-host: null
   divert-gkeys: false
   divert-keys: {209: 0, 210: 0}
