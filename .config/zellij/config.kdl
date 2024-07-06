@@ -220,9 +220,7 @@ simplified_ui false
 //   - true (default)
 //   - false
 //
-pane_frames true
-
-// Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
+pane_frames false // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
 //   - false
